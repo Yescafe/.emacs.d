@@ -33,16 +33,9 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(require 'package)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-(package-initialize)
-(unless package-archive-contents
-  (message "=== refreshing package cache...")
-  (package-refresh-contents))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
-(when (not (package-installed-p 'use-package))
-  (package-install 'use-package))
+(require 'init-packages)
 
 (use-package saveplace
   :ensure nil
@@ -110,17 +103,7 @@
 (use-package magit
   :ensure t)
 
-(use-package evil
-  :ensure t
-  :init 
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  :config
-  (define-key evil-insert-state-map (kbd "C-c C-c") 'evil-normal-state)
-  (define-key evil-visual-state-map (kbd "C-c C-c") 'evil-normal-state)
-  (evil-mode 1)
-  (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd "RET") nil)))
+(require 'init-evil)
 
 (use-package undo-tree
   :ensure t
@@ -129,39 +112,6 @@
   (global-undo-tree-mode 1)
   (setq undo-tree-auto-save-history nil)
   (evil-set-undo-system 'undo-tree))
-
-(use-package evil-collection
-  :ensure t
-  :config
-  (evil-collection-init))
-
-(use-package evil-leader
-  :config
-  (evil-leader/set-leader "SPC")
-  (global-evil-leader-mode nil)
-
-  (ignore-errors
-    (evil-leader/set-key
-      "fs" 'save-buffer
-      "fd" 'dired
-      "qq" 'save-buffers-kill-terminal
-      "x" 'execute-extended-command
-      "hk" 'describe-key
-      "hv" 'describe-variable
-      "hf" 'describe-function
-      "/" 'consult-line
-      "SPC" 'fzf
-      "," 'switch-to-buffer
-      "sg" 'fzf-grep
-      "gg" 'magit
-      "u" 'undo-tree-visualize
-      )))
-
-(use-package key-chord
-  :ensure t
-  :config
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map  "kj" 'evil-normal-state))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
