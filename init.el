@@ -121,6 +121,9 @@
   (setq undo-tree-auto-save-history nil)
   (evil-set-undo-system 'undo-tree))
 
+(use-package rust-mode
+  :ensure t)
+
 (require 'init-lsp)
 
 (custom-set-variables
