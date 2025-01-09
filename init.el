@@ -1,4 +1,7 @@
 ;; -*- lexical-binding: t -*-
+(setq gc-cons-threshold (* 300 1024 1024))
+(setq read-process-output-max (* 1024 1024))
+
 (setq mac-option-modifier 'meta
       mac-command-modifier 'super)
 
@@ -13,7 +16,7 @@
 
 (scroll-bar-mode -1)
 
-(icomplete-mode 1)
+;; (icomplete-mode 1)
 
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
@@ -103,6 +106,11 @@
 (use-package magit
   :ensure t)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
 (require 'init-evil)
 
 (use-package undo-tree
@@ -112,6 +120,8 @@
   (global-undo-tree-mode 1)
   (setq undo-tree-auto-save-history nil)
   (evil-set-undo-system 'undo-tree))
+
+(require 'init-lsp)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -123,7 +133,8 @@
  '(display-battery-mode t)
  '(display-line-numbers-type 'relative)
  '(global-display-line-numbers-mode t)
- '(package-selected-packages '(undo-tree magit restart-emacs orderless vertico company))
+ '(package-selected-packages
+   '(lsp-mode undo-tree magit restart-emacs orderless vertico company))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

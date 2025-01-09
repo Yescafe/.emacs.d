@@ -4,3 +4,4 @@
 /elpa
 /places
 /transient
+.lsp-session*
