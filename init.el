@@ -21,11 +21,6 @@
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
-(global-company-mode 1)
-
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-
 (setq inhibit-startup-screen t)
 
 (delete-selection-mode 1)
@@ -38,10 +33,15 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired t
+        insert-directory-program "/usr/local/bin/gls"
+        dired-listing-switches "-aBhl --group-directories-first"))
+
 (require 'init-packages)
 
 (use-package saveplace
-  :ensure nil
+  :ensure t
   :hook (after-init . save-place-mode))
 
 (use-package vertico
@@ -65,6 +65,7 @@
   (global-set-key (kbd "C-s") 'consult-line))
 
 (use-package company
+  :ensure t
   :bind (:map company-active-map
               ("C-n" . 'company-select-next)
               ("C-p" . 'company-select-previous))
@@ -75,6 +76,7 @@
   (setq company-idle-delay 1))
 
 (use-package fzf
+  :ensure t
   :bind
     ;; Don't forget to set keybinds!
   :config
@@ -137,7 +139,7 @@
  '(display-line-numbers-type 'relative)
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(lsp-mode undo-tree magit restart-emacs orderless vertico company))
+   '(evil-leader fzf lsp-mode undo-tree magit restart-emacs orderless vertico company))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
