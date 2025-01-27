@@ -34,9 +34,12 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (when (string= system-type "darwin")
+  (let ((ls-path (cond ((file-exists-p "/usr/local/bin/gls") "/usr/local/bin/gls")       ;; Intel mac Homebrew
+                       ((file-exists-p "/opt/homebrew/bin/gls") "/opt/homebrew/bin/gls") ;; Apple M chip mac Homebrew
+                       (t "/bin/ls"))))                                                  ;; fallback
   (setq dired-use-ls-dired t
-        insert-directory-program "/usr/local/bin/gls"
-        dired-listing-switches "-aBhl --group-directories-first"))
+        insert-directory-program ls-path
+        dired-listing-switches "-aBhl --group-directories-first")))
 
 (require 'init-packages)
 
